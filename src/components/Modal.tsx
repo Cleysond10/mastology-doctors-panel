@@ -15,28 +15,28 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, doctor, modalId }) => {
   const contentRef = useRef<HTMLDivElement>(null);
 
   const handleWhatsAppClick = () => {
-    const message = encodeURIComponent(`Olá, gostaria de marcar uma consulta com o ${doctor.name}`);
-    window.open(`https://wa.me/5581996101087?text=${message}`, '_blank');
+    const message = encodeURIComponent(`Olá, gostaria de marcar uma consulta com ${doctor.name}`);
+    window.open(`https://wa.me/5581986558892?text=${message}`, '_blank');
   };
 
   useEffect(() => {
     if (!isOpen) return;
-    
+
     const modal = modalRef.current;
     if (!modal) return;
-    
+
     const focusableElements = modal.querySelectorAll(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
     );
-    
+
     const firstElement = focusableElements[0] as HTMLElement;
     const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
-    
+
     closeButtonRef.current?.focus();
-    
+
     const handleTabKey = (e: KeyboardEvent) => {
       if (e.key !== 'Tab') return;
-      
+
       if (e.shiftKey) {
         if (document.activeElement === firstElement) {
           e.preventDefault();
@@ -49,24 +49,24 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, doctor, modalId }) => {
         }
       }
     };
-    
+
     document.addEventListener('keydown', handleTabKey);
     return () => {
       document.removeEventListener('keydown', handleTabKey);
     };
   }, [isOpen]);
-  
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (contentRef.current && !contentRef.current.contains(event.target as Node)) {
         onClose();
       }
     };
-    
+
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
-    
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
@@ -82,7 +82,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, doctor, modalId }) => {
       aria-labelledby={`${modalId}-title`}
       ref={modalRef}
     >
-      <div 
+      <div
         className="relative w-full max-w-3xl mx-auto p-4"
         ref={contentRef}
       >
@@ -95,36 +95,36 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, doctor, modalId }) => {
           >
             <X className="h-5 w-5" />
           </button>
-          
+
           <div className="flex flex-col md:flex-row">
             <div className="md:w-1/3">
               <div className="aspect-square bg-gray-100">
-                <img 
+                <img
                   src={doctor.imageUrl}
                   alt={`Foto de ${doctor.name}`}
                   className="w-full h-full object-cover"
                 />
               </div>
             </div>
-            
+
             <div className="md:w-2/3 p-6 md:p-8">
-              <h2 
+              <h2
                 id={`${modalId}-title`}
                 className="text-2xl font-bold text-gray-800 mb-1"
               >
                 {doctor.name}
               </h2>
               <p className="text-blue-600 font-medium mb-4">{doctor.crm}</p>
-              
+
               <div className="prose max-w-none mb-6">
                 <p className="text-gray-700">{doctor.bio}</p>
               </div>
-              
+
               <div className="mb-6">
                 <h3 className="text-lg font-semibold text-gray-800 mb-2">Especialidades</h3>
                 <div className="flex flex-wrap gap-2">
                   {doctor.specialties.map((specialty, index) => (
-                    <span 
+                    <span
                       key={index}
                       className="inline-block bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-sm font-medium"
                     >
@@ -133,12 +133,12 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, doctor, modalId }) => {
                   ))}
                 </div>
               </div>
-              
+
               <div className="mb-6">
                 <h3 className="text-lg font-semibold text-gray-800 mb-2">Redes Sociais</h3>
                 <div className="flex gap-3">
                   {doctor.socialMedia.linkedin && (
-                    <a 
+                    <a
                       href={doctor.socialMedia.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -148,9 +148,9 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, doctor, modalId }) => {
                       <Linkedin className="h-6 w-6" />
                     </a>
                   )}
-                  
+
                   {doctor.socialMedia.instagram && (
-                    <a 
+                    <a
                       href={doctor.socialMedia.instagram}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -160,9 +160,9 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, doctor, modalId }) => {
                       <Instagram className="h-6 w-6" />
                     </a>
                   )}
-                  
+
                   {doctor.socialMedia.website && (
-                    <a 
+                    <a
                       href={doctor.socialMedia.website}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -174,7 +174,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, doctor, modalId }) => {
                   )}
                 </div>
               </div>
-              
+
               <div className="mt-8">
                 <button
                   onClick={handleWhatsAppClick}

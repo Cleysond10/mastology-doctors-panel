@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, Clock, Phone, Send } from 'lucide-react';
+import { Clock, Phone, Mail, MapPin, Send } from 'lucide-react';
 
 const AppointmentSection: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -21,24 +21,50 @@ const AppointmentSection: React.FC = () => {
     }));
   };
 
+  const handleDateFormat = (date: string) => {
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    const formattedDate = new Date(date).toLocaleDateString('pt-BR', options);
+    return formattedDate.replace(/\//g, '-'); // Replace slashes with dashes
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // In a real application, you would send this data to a server
     console.log('Form submitted:', formData);
     setIsSubmitted(true);
-    
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        date: '',
-        time: '',
-        message: ''
-      });
-    }, 3000);
+
+    const { name, email, phone, date, time, message } = formData;
+
+    const texto = `
+      *Agendamento de Consulta*
+
+      *Nome:* ${name}
+      *Email:* ${email}
+      *Telefone:* ${phone}
+      *Data:* ${handleDateFormat(date)}
+      *Horário:* ${time}
+      ${message && `*Mensagem:* ${message}`}
+    `;
+
+      const numeroWhatsApp = '5581986558892';
+      const textoCodificado = encodeURIComponent(texto.trim());
+
+      const link = `https://wa.me/${numeroWhatsApp}?text=${textoCodificado}`;
+
+      // Abre o link em uma nova aba
+      window.open(link, '_blank');
+
+    // setTimeout(() => {
+    //   setIsSubmitted(false);
+    //   setFormData({
+    //     name: '',
+    //     email: '',
+    //     phone: '',
+    //     date: '',
+    //     time: '',
+    //     message: ''
+    //   });
+    // }, 3000);
   };
 
   return (
@@ -51,13 +77,13 @@ const AppointmentSection: React.FC = () => {
               Preencha o formulário abaixo para agendar uma consulta com um de nossos especialistas em mastologia.
             </p>
           </div>
-          
+
           <div className="bg-gray-50 rounded-2xl shadow-sm overflow-hidden">
             <div className="grid md:grid-cols-2">
               {/* Left side - Contact Info */}
               <div className="bg-blue-700 text-white p-8 md:p-12">
                 <h3 className="text-2xl font-bold mb-6">Informações de Contato</h3>
-                
+
                 <div className="space-y-6">
                   <div className="flex items-start">
                     <div className="mt-1 bg-blue-600 p-2 rounded-full">
@@ -65,22 +91,44 @@ const AppointmentSection: React.FC = () => {
                     </div>
                     <div className="ml-4">
                       <h4 className="font-medium">Telefone</h4>
-                      <p className="mt-1">(11) 5555-5555</p>
+                      <b className="mt-1">(81) 9 8655-8892</b>
                     </div>
                   </div>
-                  
+
+                  <div className="flex items-start">
+                    <div className="mt-1 bg-blue-600 p-2 rounded-full">
+                      <Mail className="h-5 w-5" />
+
+                    </div>
+                    <div className="ml-4">
+                      <h4 className="font-medium">E-mail</h4>
+                      <b className="mt-1">masto.hsj@gmail.com</b>
+                    </div>
+                  </div>
+
                   <div className="flex items-start">
                     <div className="mt-1 bg-blue-600 p-2 rounded-full">
                       <Clock className="h-5 w-5" />
                     </div>
                     <div className="ml-4">
                       <h4 className="font-medium">Horário de Atendimento</h4>
-                      <p className="mt-1">Segunda a Sexta: 8h às 18h</p>
-                      <p>Sábado: 8h às 12h</p>
+                      <b className="mt-1">Segunda a Sexta: 8h às 18h</b>
+                      <p>*Sábado: 8h às 12h</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start">
+                    <div className="mt-1 bg-blue-600 p-2 rounded-full">
+                      <MapPin className="h-5 w-5" />
+
+                    </div>
+                    <div className="ml-4">
+                      <h4 className="font-medium">Endereço</h4>
+                      <b className="mt-1">Rua Joaquim Nabuco, 200, Graças, 52011-000, Recife, PE</b>
+                    </div>
+                  </div>
+
+                  {/* <div className="flex items-start">
                     <div className="mt-1 bg-blue-600 p-2 rounded-full">
                       <Calendar className="h-5 w-5" />
                     </div>
@@ -88,10 +136,10 @@ const AppointmentSection: React.FC = () => {
                       <h4 className="font-medium">Consultas</h4>
                       <p className="mt-1">Consultas presenciais e telemedicina disponíveis</p>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
-                
-                <div className="mt-12">
+
+                {/* <div className="mt-12">
                   <h4 className="font-medium mb-2">Siga-nos</h4>
                   <div className="flex space-x-4">
                     <a href="#" aria-label="Facebook" className="bg-blue-600 hover:bg-blue-500 p-2 rounded-full transition-colors">
@@ -110,9 +158,9 @@ const AppointmentSection: React.FC = () => {
                       </svg>
                     </a>
                   </div>
-                </div>
+                </div> */}
               </div>
-              
+
               {/* Right side - Form */}
               <div className="p-8 md:p-12">
                 {isSubmitted ? (
@@ -122,9 +170,9 @@ const AppointmentSection: React.FC = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
                       </svg>
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-800 mb-2">Agendamento Recebido!</h3>
+                    <h3 className="text-2xl font-bold text-gray-800 mb-2">Agendamento Solicitado!</h3>
                     <p className="text-gray-600">
-                      Obrigado pelo seu agendamento. Entraremos em contato em breve para confirmar sua consulta.
+                      Entraremos em contato em breve para confirmar sua consulta.
                     </p>
                   </div>
                 ) : (
@@ -144,7 +192,7 @@ const AppointmentSection: React.FC = () => {
                         placeholder="Seu nome completo"
                       />
                     </div>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
@@ -177,7 +225,7 @@ const AppointmentSection: React.FC = () => {
                         />
                       </div>
                     </div>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label htmlFor="date" className="block text-sm font-medium text-gray-700 mb-1">
@@ -205,13 +253,13 @@ const AppointmentSection: React.FC = () => {
                           required
                           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                         >
-                          <option value="">Selecione um horário</option>
-                          <option value="morning">Manhã (8h-12h)</option>
-                          <option value="afternoon">Tarde (13h-18h)</option>
+                          <option value="">Selecione um turno</option>
+                          <option value="manhã">Manhã (8h-12h)</option>
+                          <option value="tarde">Tarde (13h-18h)</option>
                         </select>
                       </div>
                     </div>
-                    
+
                     <div>
                       <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
                         Mensagem (opcional)
@@ -226,7 +274,7 @@ const AppointmentSection: React.FC = () => {
                         placeholder="Descreva brevemente o motivo da sua consulta..."
                       ></textarea>
                     </div>
-                    
+
                     <div>
                       <button
                         type="submit"

@@ -4,8 +4,8 @@ const Hero: React.FC = () => {
   return (
     <section className="relative w-full h-[80vh] min-h-[500px] flex items-center justify-center overflow-hidden">
       {/* Background Image */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0" 
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
         style={{
           backgroundImage: "url('https://images.pexels.com/photos/4167541/pexels-photo-4167541.jpeg?auto=compress&cs=tinysrgb&w=1920')",
           backgroundSize: "cover",
@@ -18,25 +18,19 @@ const Hero: React.FC = () => {
       <div className="container mx-auto px-4 relative z-10 text-center">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-            Cuidando da saúde das mulheres com excelência
+            Cuidando da sua saúde com excelência e acolhimento
           </h1>
           <p className="text-xl md:text-2xl text-white opacity-90 mb-8">
             Nossa equipe de especialistas está pronta para oferecer o melhor tratamento em mastologia
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
-              href="#equipe" 
-              className="bg-white hover:bg-gray-100 text-blue-700 font-semibold px-8 py-3 rounded-full transition-colors text-lg"
-            >
-              Conheça nossa equipe
-            </a>
-            <a 
-              href="#agendar" 
+          {/* <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="#agendar"
               className="bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-full transition-colors text-lg"
             >
               Agende sua consulta
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
 
